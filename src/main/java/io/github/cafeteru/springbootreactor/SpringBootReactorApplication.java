@@ -34,7 +34,8 @@ public class SpringBootReactorApplication implements CommandLineRunner {
         var second = createFluxWithFlatMap();
         subscribeExample(second);
 
-       createFluxWithUserWithComments();
+        createFluxWithUserWithComments();
+        createFluxWithZipWith();
     }
 
     private static Flux<User> createFluxFromJust() {
@@ -76,8 +77,8 @@ public class SpringBootReactorApplication implements CommandLineRunner {
 
     private static void createFluxWithUserWithComments() {
         log.info("createFluxWithUserWithComments");
-        Mono<User> userMono = Mono.fromCallable(() -> new User("John", "Doe"));
-        Mono<Comment> commentMono = Mono.fromCallable(() -> {
+        var userMono = Mono.fromCallable(() -> new User("John", "Doe"));
+        var commentMono = Mono.fromCallable(() -> {
             var comment = new Comment();
             comment.addComment("Hello");
             comment.addComment("World");
@@ -86,6 +87,23 @@ public class SpringBootReactorApplication implements CommandLineRunner {
             return comment;
         });
         var userWithCommentsMono = userMono.flatMap(user -> commentMono.map(comment -> new UserWithComments(user, comment)));
+        userWithCommentsMono.subscribe(userWithComments -> log.info(userWithComments.toString()));
+    }
+
+    private static void createFluxWithZipWith() {
+        log.info("createFluxWithZipWith");
+        var userMono = Mono.fromCallable(() -> new User("John", "Doe"));
+        var commentMono = Mono.fromCallable(() -> {
+            var comment = new Comment();
+            comment.addComment("Hello");
+            comment.addComment("World");
+            comment.addComment("From");
+            comment.addComment("Reactor");
+            return comment;
+        });
+        // zipWith: Combina dos flujos
+        //  var userWithCommentsMono = userMono.zipWith(commentMono).map(tuple -> new UserWithComments(tuple.getT1(), tuple.getT2()));
+        var userWithCommentsMono = userMono.zipWith(commentMono, UserWithComments::new);
         userWithCommentsMono.subscribe(userWithComments -> log.info(userWithComments.toString()));
     }
 
