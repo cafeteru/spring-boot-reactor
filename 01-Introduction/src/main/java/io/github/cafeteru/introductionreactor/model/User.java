@@ -1,4 +1,4 @@
-package io.github.cafeteru.springbootreactor.model;
+package io.github.cafeteru.introductionreactor.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

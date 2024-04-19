@@ -1,4 +1,4 @@
-package io.github.cafeteru.springbootreactor;
+package io.github.cafeteru.introductionreactor;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

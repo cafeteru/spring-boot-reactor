@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>io.github.cafeteru</groupId>
-    <artifactId>spring-boot-reactor</artifactId>
+    <artifactId>introduction-reactor</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-boot-reactor</name>
     <description>Demo project for Spring Boot with Reactor Proyect</description>

@@ -1,8 +1,8 @@
-package io.github.cafeteru.springbootreactor;
+package io.github.cafeteru.introductionreactor;
 
-import io.github.cafeteru.springbootreactor.model.Comment;
-import io.github.cafeteru.springbootreactor.model.User;
-import io.github.cafeteru.springbootreactor.model.UserWithComments;
+import io.github.cafeteru.introductionreactor.model.Comment;
+import io.github.cafeteru.introductionreactor.model.User;
+import io.github.cafeteru.introductionreactor.model.UserWithComments;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
