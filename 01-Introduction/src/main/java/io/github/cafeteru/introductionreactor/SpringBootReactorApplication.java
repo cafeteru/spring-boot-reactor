@@ -23,22 +23,35 @@ public class SpringBootReactorApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        var first = createFluxFromJust();
-        subscribeExample(first);
+//        var first = createFluxFromJust();
+//        subscribeExample(first);
+//
+//        var users = List.of(
+//                new User("John", "Doe"),
+//                new User("Jane", "D"));
+//        var fluxUsers = Flux.fromIterable(users);
+//        subscribeExample(fluxUsers);
+//
+//        var second = createFluxWithFlatMap();
+//        subscribeExample(second);
+//
+//        createFluxWithUserWithComments();
+//        createFluxWithZipWith();
+//        createFluxWithZipWithAndRange();
+//        createFluxWithInterval();
+        System.out.println(marsExploration("SOS OOS OSO SOS OSS OSO SOS OSO SOS"));
+    }
 
-        var users = List.of(
-                new User("John", "Doe"),
-                new User("Jane", "D"));
-        var fluxUsers = Flux.fromIterable(users);
-        subscribeExample(fluxUsers);
-
-        var second = createFluxWithFlatMap();
-        subscribeExample(second);
-
-        createFluxWithUserWithComments();
-        createFluxWithZipWith();
-        createFluxWithZipWithAndRange();
-        createFluxWithInterval();
+    public static int marsExploration(String s) {
+        // Write your code here
+        int contador = 0;
+        String subcadena = "SOS";
+        int indice = s.indexOf(subcadena);
+        while (indice != -1) {
+            contador++;
+            indice = s.indexOf(subcadena, indice + 1);
+        }
+        return contador;
     }
 
     private static Flux<User> createFluxFromJust() {
