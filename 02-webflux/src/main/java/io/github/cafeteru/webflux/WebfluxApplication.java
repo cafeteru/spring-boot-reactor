@@ -10,6 +10,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import reactor.core.publisher.Flux;
 
+import java.util.ArrayList;
+
 @SpringBootApplication
 @Slf4j
 
@@ -30,11 +32,14 @@ public class WebfluxApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Product[] products = {new Product("Product 1", 100.0),
-                new Product("Product 2", 200.0)};
-        mongoTemplate.dropCollection("products").subscribe();
-        Flux.just(products)
+        var products = new ArrayList<Product>();
+        for (int i = 0; i < 25; i++) {
+            products.add(new Product("Product " + i, 100.0 * i));
+        }
+        mongoTemplate.dropCollection("products")
+                .thenMany(Flux.fromIterable(products))
                 .flatMap(productRepository::save)
-                .subscribe(product -> log.info("Product saved: {}", product));
+                .doOnNext(product -> log.info("Product saved: {}", product))
+                .subscribe();
     }
 }
