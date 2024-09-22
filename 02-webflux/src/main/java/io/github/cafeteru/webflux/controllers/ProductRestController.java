@@ -1,7 +1,7 @@
 package io.github.cafeteru.webflux.controllers;
 
 import io.github.cafeteru.webflux.models.Product;
-import io.github.cafeteru.webflux.repositories.ProductRepository;
+import io.github.cafeteru.webflux.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,21 +16,17 @@ import reactor.core.publisher.Mono;
 @RestController
 @Slf4j
 public class ProductRestController {
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
     @GetMapping
     public Flux<Product> index() {
-        return productRepository.findAll()
-                .map(product -> {
-                    product.setName(product.getName().toUpperCase());
-                    return product;
-                })
+        return productService.findAll()
                 .doOnNext(product -> log.info(product.toString()));
     }
 
     @GetMapping("/{id}")
     public Mono<Product> show(@PathVariable String id) {
-        return productRepository.findById(id)
+        return productService.findById(id)
                 .doOnNext(product -> log.info(product.toString()))
                 .switchIfEmpty(Mono.empty());
     }

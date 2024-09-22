@@ -1,6 +1,6 @@
 package io.github.cafeteru.webflux.controllers;
 
-import io.github.cafeteru.webflux.repositories.ProductRepository;
+import io.github.cafeteru.webflux.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -14,15 +14,11 @@ import java.time.Duration;
 @RequiredArgsConstructor
 @Slf4j
 public class ProductController {
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
     @GetMapping({"/products", "/"})
     public String list(Model model) {
-        var products = productRepository.findAll()
-                .map(product -> {
-                    product.setName(product.getName().toUpperCase());
-                    return product;
-                });
+        var products = productService.findAll();
         products.subscribe(product -> log.info(product.toString()));
         model.addAttribute("products", products);
         model.addAttribute("title", "Products");
@@ -31,11 +27,7 @@ public class ProductController {
 
     @GetMapping("/products-data-driver")
     public String listDataDriver(Model model) {
-        var products = productRepository.findAll()
-                .map(product -> {
-                    product.setName(product.getName().toUpperCase());
-                    return product;
-                }).delayElements(Duration.ofSeconds(1));
+        var products = productService.findAll().delayElements(Duration.ofSeconds(1));
         products.subscribe(product -> log.info(product.toString()));
         // Para ir mostrando los productos conforme se van obteniendo de dos en dos, no esperar a obtener todos
         // No pagina
@@ -47,11 +39,7 @@ public class ProductController {
 
     @GetMapping("/products-full")
     public String listFull(Model model) {
-        var products = productRepository.findAll()
-                .map(product -> {
-                    product.setName(product.getName().toUpperCase());
-                    return product;
-                }).repeat(500);
+        var products = productService.findAll().repeat(500);
         products.subscribe(product -> log.info(product.toString()));
         model.addAttribute("products", products);
         model.addAttribute("title", "Products full");
@@ -60,11 +48,7 @@ public class ProductController {
 
     @GetMapping("/products-chunked")
     public String listChunked(Model model) {
-        var products = productRepository.findAll()
-                .map(product -> {
-                    product.setName(product.getName().toLowerCase());
-                    return product;
-                }).repeat(1_000);
+        var products = productService.findAll().repeat(1_000);
         products.subscribe(product -> log.info(product.toString()));
         model.addAttribute("products", products);
         model.addAttribute("title", "Products chunked");
