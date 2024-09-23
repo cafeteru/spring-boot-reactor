@@ -1,5 +1,7 @@
 package io.github.cafeteru.webflux.models;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -15,8 +17,11 @@ public class Product {
     @Id
     private String id;
 
+    @NotEmpty
     private String name;
-    private double price;
+
+    @NotNull
+    private Double price;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createdAt;
