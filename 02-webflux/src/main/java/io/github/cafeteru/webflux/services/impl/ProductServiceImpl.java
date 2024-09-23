@@ -4,9 +4,11 @@ import io.github.cafeteru.webflux.models.Product;
 import io.github.cafeteru.webflux.repositories.ProductRepository;
 import io.github.cafeteru.webflux.services.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;

@@ -1,12 +1,15 @@
 package io.github.cafeteru.webflux.controllers;
 
+import io.github.cafeteru.webflux.models.Product;
 import io.github.cafeteru.webflux.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.thymeleaf.spring6.context.webflux.ReactiveDataDriverContextVariable;
+import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 
@@ -23,6 +26,20 @@ public class ProductController {
         model.addAttribute("products", products);
         model.addAttribute("title", "Products");
         return "products";
+    }
+
+    @GetMapping("/form")
+    public Mono<String> create(Model model) {
+        model.addAttribute("product", new Product());
+        model.addAttribute("title", "Product form");
+        return Mono.just("form");
+    }
+
+    @PostMapping("/form")
+    public Mono<String> save(Product product) {
+        return productService.save(product)
+                .doOnNext(p -> log.info("Product saved: " + p))
+                .thenReturn("redirect:/products");
     }
 
     @GetMapping("/products-data-driver")
